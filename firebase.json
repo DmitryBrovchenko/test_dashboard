@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "public": "dist/angilar-basics",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
