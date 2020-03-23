@@ -1,0 +1,13 @@
+<ag-grid-angular
+    class="ag-theme-balham mygrid"
+    [rowData]="rowData"
+    [columnDefs]="columnDefs"
+    [defaultColDef]="defaultColDef"
+    [columnTypes]="columnTypes"
+    headerHeight= 48
+    groupSuppressAutoColumn="true"
+    suppressAggFuncInHeader= "true"
+    (firstDataRendered)="onFirstDataRendered($event)"
+    >
+</ag-grid-angular>
+
