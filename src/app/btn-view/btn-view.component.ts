@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from "../data.service";
+import { DataService }       from '../data.service';
 
 @Component({
   selector: 'app-btn-view',
@@ -8,10 +8,12 @@ import { DataService } from "../data.service";
 })
 export class BtnViewComponent implements OnInit {
   viewMode: string;
-  constructor(private data: DataService) { }
+
+  constructor(private data: DataService) {
+  }
 
   ngOnInit(): void {
-    this.data.currentViewMode.subscribe(viewMode=>this.viewMode=viewMode);
+    this.data.currentViewMode.subscribe(viewMode => this.viewMode = viewMode);
   }
 
   changeView(event) {

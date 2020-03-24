@@ -30,7 +30,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.sourceDataPieRS.forEach(d => {
-      d['revstr'] = (d.category == 'New Revenue') ? 'NR ' + d.subcategory : 'ARR ' + d.subcategory;
+      d['revstr'] = (d.category === 'New Revenue') ? 'NR ' + d.subcategory : 'ARR ' + d.subcategory;
     });
   }
 }

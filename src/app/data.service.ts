@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable }      from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
@@ -9,7 +9,9 @@ export class DataService {
   currentQuarter = this.quarterSource.asObservable();
   private viewModeSource = new BehaviorSubject('quarter-view');
   currentViewMode = this.viewModeSource.asObservable();
-  constructor() { }
+
+  constructor() {
+  }
 
   changeQuarter(quarter: number) {
     this.quarterSource.next(quarter);

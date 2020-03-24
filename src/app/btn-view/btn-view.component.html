@@ -1,12 +1,14 @@
 <div class="button-bar">
-    <button 
-        (click)="changeView($event)" 
-        value="quarter-view"
-        [class.selected]="viewMode=='quarter-view'"
-    >Quarterly View</button>
-    <button 
-        (click)="changeView($event)" 
-        value="cumulative-view"
-        [class.selected]="viewMode=='cumulative-view'"
-    >Cumulative View</button>
+  <button
+    (click)="changeView($event)"
+    value="quarter-view"
+    [class.selected]="viewMode=='quarter-view'"
+  >Quarterly View
+  </button>
+  <button
+    (click)="changeView($event)"
+    value="cumulative-view"
+    [class.selected]="viewMode=='cumulative-view'"
+  >Cumulative View
+  </button>
 </div>

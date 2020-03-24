@@ -1,0 +1,26 @@
+<div class="button-bar">
+  <button
+    (click)="changeQtr($event)"
+    value=1
+    [class.selected]=" (selectedQtr == 1) "
+  >Q1
+  </button>
+  <button
+    (click)="changeQtr($event)"
+    value=2
+    [class.selected]=" (selectedQtr == 2) "
+  >Q2
+  </button>
+  <button
+    (click)="changeQtr($event)"
+    value=3
+    [class.selected]=" (selectedQtr == 3) "
+  >Q3
+  </button>
+  <button
+    (click)="changeQtr($event)"
+    value=4
+    [class.selected]=" (selectedQtr == 4) "
+  >Q4
+  </button>
+</div>
