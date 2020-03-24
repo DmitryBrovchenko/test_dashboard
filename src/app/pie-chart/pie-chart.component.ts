@@ -17,12 +17,12 @@ export class PieChartComponent implements AfterViewInit {
 
   currentView: string;
   selectedQtr: number;
-  private width = 400;
-  private height = 300;
-  private margin = 20;
+  width = 400;
+  height = 300;
+  margin = 20;
 
-  private svg;
-  private gChartArea;
+  svg;
+  gChartArea;
 
   constructor(private data: DataService) {
   }

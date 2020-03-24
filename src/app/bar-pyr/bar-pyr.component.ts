@@ -13,16 +13,16 @@ export class BarPyrComponent implements OnInit {
   currentView: string;
   selectedQtr: number;
 
-  private sourceData = barPyramid['SASTableData+BARPYRAMID'];
-  private width = 400;
-  private height = 300;
-  private margin = 20;
+  sourceData = barPyramid['SASTableData+BARPYRAMID'];
+  width = 400;
+  height = 300;
+  margin = 20;
 
-  private svg;
-  private gChartArea;
-  private yAxisComponent;
-  private xAxisComponent;
-  private x2AxisComponent;
+  svg;
+  gChartArea;
+  yAxisComponent;
+  xAxisComponent;
+  x2AxisComponent;
 
   constructor(private data: DataService) {
   }
@@ -60,7 +60,7 @@ export class BarPyrComponent implements OnInit {
 
     const transTime = 500;
     // Get the data
-    const graphData = this.aggregateData(this.sourceData, this.currentView, this.selectedQtr);
+    const graphData = this.aggregateData(this.sourceData, this.currentView, Number(this.selectedQtr));
 
 
     // Add or update svg and g
