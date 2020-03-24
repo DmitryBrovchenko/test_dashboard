@@ -64,7 +64,7 @@ export class PieChartComponent implements AfterViewInit {
   reDraw(categoryName: string) {
     const radius = 0.9 * Math.min(this.width, this.height) / 2 - 2 * this.margin;
     // Get the data
-    const graphData = this.aggregateData(this.sourceData, categoryName, this.currentView, this.selectedQtr);
+    const graphData = this.aggregateData(this.sourceData, categoryName, this.currentView, Number(this.selectedQtr));
     console.log(graphData);
     // set the color scale
     const color = d3.scaleOrdinal(d3.schemeCategory10)
