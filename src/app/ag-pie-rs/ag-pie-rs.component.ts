@@ -12,7 +12,7 @@ export class AgPieRsComponent implements OnInit {
   selectedQtr: number;
   sourceData = pieRevStr['SASTableData+PIE_RS'];
   graphData: any;
-  options: any;
+  options;
 
   constructor(private data: DataService) {
   }
@@ -59,9 +59,10 @@ export class AgPieRsComponent implements OnInit {
       },
       series: [{
         type: 'pie',
-        labelKey: 'revstr',
         angleKey: 'last_submit',
-        tooltipEnabled: true
+        labelKey: 'revstr',
+        tooltipEnabled: true,
+        tooltipClass: 'tooltip'
       }]
     };
   }

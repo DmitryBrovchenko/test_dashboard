@@ -11,6 +11,7 @@ import { BtnQtrComponent }  from './btn-qtr/btn-qtr.component';
 import { AgPieRsComponent } from './ag-pie-rs/ag-pie-rs.component';
 import { AgTableComponent }  from './ag-table/ag-table.component';
 import { PieChartComponent } from './pie-chart/pie-chart.component';
+import { TooltipComponent } from './tooltip/tooltip.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { PieChartComponent } from './pie-chart/pie-chart.component';
     BtnQtrComponent,
     AgPieRsComponent,
     AgTableComponent,
-    PieChartComponent
+    PieChartComponent,
+    TooltipComponent
   ],
   imports: [
     BrowserModule,

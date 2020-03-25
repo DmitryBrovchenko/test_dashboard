@@ -109,21 +109,36 @@ export class PieChartComponent implements AfterViewInit {
 
     /* Update pie chart */
     const slices = this.gChartArea.selectAll('.slice').data(dataReady, d => d.data[categoryName]);
-
+    const tooltip = d3.select('.tooltip');
     /* Add new slices */
     slices.enter()
       .append('path')
       .classed('slice', true)
       .attr('d', arcGenerator)
       .attr('fill', d => (color(d.data[categoryName])))
+      .attr('id', (d) => d.data[categoryName].replace(/\s+/g, ''))
       .attr('stroke', 'black')
+      .on('mousemove', (d) => {
+        d3.select('#' + d.data[categoryName].replace(/\s+/g, '')).style('opacity', 1);
+        tooltip.classed('tooltip-visible', true).style('left', (d3.event.pageX) + 'px')
+          .style('top', (d3.event.pageY - 5 - parseInt(tooltip.style('height'), 10)) + 'px');
+        tooltip.html(d.data[categoryName] + '</br><strong>Last Submit: </strong>'
+          + d.data.last_submit.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+          + '</br><strong>Latest Rollup: </strong>'
+          + d.data.latest_rollup.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'));
+      })
+      .on('mouseout', (d) => {
+        d3.select('#' + d.data[categoryName].replace(/\s+/g, '')).style('opacity', 0.8);
+        tooltip.classed('tooltip-visible', false);
+      })
       .style('stroke-width', '1px')
-      .style('opacity', 0.7)
+      .style('opacity', 0.8)
     ;
 
     slices
       .transition().duration(transTime)
       .attr('fill', d => color(d.data[categoryName]))
+      .attr('id', (d) => d.data[categoryName].replace(/\s+/g, ''))
       .attrTween('d', function(d) {
         this._current = this._current || d;
         const interpolate = d3.interpolate(this._current, d);
@@ -149,6 +164,7 @@ export class PieChartComponent implements AfterViewInit {
       .attr('transform', d => 'translate(' + arcGenerator.centroid(d) + ')')
       .style('text-anchor', 'middle')
       .style('font-size', 12)
+      .style('pointer-events', 'none')
       .style('opacity', 0)
       .transition()
       .duration(transTime)
@@ -177,11 +193,29 @@ export class PieChartComponent implements AfterViewInit {
     legendRect.enter()
       .append('rect')
       .classed('legend-rect', true)
+      .attr('id', d => 'rect' + d.data[categoryName].replace(/\s+/g, ''))
       .style('fill', d => color(d.data[categoryName]))
+      .style('opacity', 0.8)
       .attr('x', 0.9 * this.height - this.margin)
       .attr('y', d => coordinates[d.data[categoryName]].y_r)
       .attr('width', 15)
       .attr('height', 15)
+      .on('mouseover', d => {
+        d3.select('#rect' + d.data[categoryName].replace(/\s+/g, '')).style('opacity', 1);
+        d3.select('#' + d.data[categoryName].replace(/\s+/g, '')).style('opacity', 1);
+        const elem = document.getElementById(d.data[categoryName].replace(/\s+/g, '')).getBoundingClientRect();
+        tooltip.classed('tooltip-visible', true).style('left', (window.scrollX + elem.x + elem.width / 2) + 'px')
+          .style('top', (window.scrollY + elem.y + elem.height / 2) + 'px');
+        tooltip.html(d.data[categoryName] + '</br><strong>Last Submit: </strong>'
+          + d.data.last_submit.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+          + '</br><strong>Latest Rollup: </strong>'
+          + d.data.latest_rollup.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'));
+      })
+      .on('mouseout', d => {
+        d3.select('#rect' + d.data[categoryName].replace(/\s+/g, '')).style('opacity', 0.8);
+        d3.select('#' + d.data[categoryName].replace(/\s+/g, '')).style('opacity', 0.8);
+        tooltip.classed('tooltip-visible', false);
+      })
     ;
     // Text
     this.svg.selectAll('.legend-text').remove();
