@@ -1,36 +1,51 @@
-import { Component, OnInit } from '@angular/core';
-import NRTable               from '../assets/NRTable.json';
-import ARRTable              from '../assets/ARRTable.json';
-import pieGeo                from '../assets/pieGeo.json';
-import pieRS                 from '../assets/pieRevStr.json';
+import { Component }           from '@angular/core';
+import { AngularFireDatabase } from '@angular/fire/database';
+import { map, tap }            from 'rxjs/operators';
+
+interface PieRSDatum {
+  category: string;
+  subcategory: string;
+}
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
-  title = 'angilar-basics';
+export class AppComponent {
+  values;
+  isLoadingPieRS = true;
+  isLoadingPieGeo = true;
+  isLoadingBarPyr = true;
 
-  sourceDataNR = NRTable['SASTableData+NR_TABLE'];
+  sourceDataBarPyr;
+  sourceDataPieGeo;
+  sourceDataPieRS;
+
   nameNR = 'NR';
-
-  sourceDataARR = ARRTable['SASTableData+ARR_TABLE'];
   nameARR = 'ARR';
-
-  sourceDataPieGeo = pieGeo['SASTableData+PIE_GEO'];
   pieNameGeo = 'TOR by Subregions';
   pieClassGeo = 'pie-geo';
   categoryNameGeo = 'GEO2';
-
   pieNameRS = 'TOR by Revenue Streams';
   pieClassRS = 'pie-rs';
   categoryNameRS = 'revstr';
-  sourceDataPieRS = pieRS['SASTableData+PIE_RS'];
 
-  ngOnInit() {
-    this.sourceDataPieRS.forEach(d => {
-      d['revstr'] = (d.category === 'New Revenue') ? 'NR ' + d.subcategory : 'ARR ' + d.subcategory;
-    });
+  constructor(public db: AngularFireDatabase) {
+    this.db.list('SASTableData+BARPYRAMID').valueChanges()
+      .pipe(tap(() => this.isLoadingBarPyr = false))
+      .subscribe(response => this.sourceDataBarPyr = response);
+    this.db.list('SASTableData+PIE_RS').valueChanges()
+      .pipe(
+        tap(() => this.isLoadingPieRS = false),
+        map(res => {
+          res.forEach((d: PieRSDatum) => d['revstr'] = (d.category === 'New Revenue') ? 'NR ' + d.subcategory : 'ARR ' + d.subcategory);
+          return res;
+        })
+      )
+      .subscribe(response => this.sourceDataPieRS = response);
+    this.db.list('SASTableData+PIE_GEO').valueChanges()
+      .pipe(tap(() => this.isLoadingPieGeo = false))
+      .subscribe(response => this.sourceDataPieGeo = response);
   }
 }

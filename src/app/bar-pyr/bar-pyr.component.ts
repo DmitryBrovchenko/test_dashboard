@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { DataService }       from '../data.service';
-import barPyramid            from '../../assets/barPyramid.json';
-import * as d3               from 'd3';
+import { Component, Input, OnInit } from '@angular/core';
+import { DataService }              from '../data.service';
+import * as d3                      from 'd3';
 
 @Component({
   selector: 'app-bar-pyr',
@@ -9,11 +8,10 @@ import * as d3               from 'd3';
   styleUrls: ['./bar-pyr.component.scss']
 })
 export class BarPyrComponent implements OnInit {
-
+  @Input() sourceData;
   currentView: string;
   selectedQtr: number;
 
-  sourceData = barPyramid['SASTableData+BARPYRAMID'];
   width = 400;
   height = 300;
   margin = 20;

@@ -27,7 +27,6 @@ export class PieChartComponent implements AfterViewInit {
   constructor(private data: DataService) {
   }
 
-
   ngAfterViewInit(): void {
     this.data.currentViewMode.subscribe(viewMode => {
       this.currentView = viewMode;
@@ -243,8 +242,6 @@ export class PieChartComponent implements AfterViewInit {
       )
       .style('font-size', 10)
     ;
-
-
   }
 
 }

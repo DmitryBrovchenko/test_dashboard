@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { AngularFireDatabase }      from '@angular/fire/database';
 
 @Component({
   selector: 'app-ag-table',
@@ -8,7 +9,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class AgTableComponent implements OnInit {
 
   @Input() name: string;
-  @Input() sourceData: any;
+  @Input() sourceData;
 
   columnDefs;
   rowData;
@@ -28,12 +29,14 @@ export class AgTableComponent implements OnInit {
     }
   };
 
+  constructor(public db: AngularFireDatabase) {
+  }
+
   onFirstDataRendered(params) {
     params.api.sizeColumnsToFit();
   }
-
   ngOnInit() {
-    this.rowData = this.sourceData;
+    this.sourceData.valueChanges().subscribe(response => this.rowData = response);
     this.columnDefs = [
       {headerName: this.name, field: 'refresh_date', pinned: 'left', aggFunc: minDate},
       {
@@ -64,9 +67,7 @@ export class AgTableComponent implements OnInit {
         valueGetter: params => {
           return (params.getValue('LY') > 0) ? (params.getValue('FY') - params.getValue('LY')) / params.getValue('LY') : null;
         }
-      }
-    ];
-
+      }];
   }
 
 }
