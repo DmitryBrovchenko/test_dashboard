@@ -16,6 +16,8 @@ import { AngularFireModule }         from '@angular/fire';
 import { environment }               from '../environments/environment';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { FormsModule }               from '@angular/forms';
+import { AngularFireAuthModule }     from '@angular/fire/auth';
+import { AuthService }               from './auth.service';
 
 @NgModule({
   declarations: [
@@ -34,9 +36,10 @@ import { FormsModule }               from '@angular/forms';
     AgChartsAngularModule,
     AngularFireModule.initializeApp(environment.fbConfig),
     AngularFireDatabaseModule,
+    AngularFireAuthModule,
     FormsModule
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

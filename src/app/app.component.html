@@ -1,40 +1,47 @@
 <h2>PTG Landing Dashboard Test</h2>
-<app-ag-table
-  [name]="nameNR"
-  [sourceData]="db.list('SASTableData+NR_TABLE')"
->
-</app-ag-table>
-<app-ag-table
-  [name]="nameARR"
-  [sourceData]="db.list('SASTableData+ARR_TABLE')"
->
-</app-ag-table>
-<app-btn-view></app-btn-view>
-<app-btn-qtr></app-btn-qtr>
-<p></p>
-<ng-container *ngIf="!isLoadingBarPyr else loadingTmp">
-  <app-bar-pyr
-    [sourceData]="sourceDataBarPyr"
+<ng-container *ngIf="authService.user | async; else showLogin">
+  <app-ag-table
+    [name]="nameNR"
+    [sourceData]="db.list('SASTableData+NR_TABLE')"
   >
-  </app-bar-pyr>
+  </app-ag-table>
+  <app-ag-table
+    [name]="nameARR"
+    [sourceData]="db.list('SASTableData+ARR_TABLE')"
+  >
+  </app-ag-table>
+  <app-btn-view></app-btn-view>
+  <app-btn-qtr></app-btn-qtr>
+  <p></p>
+  <ng-container *ngIf="!isLoadingBarPyr else loadingTmp">
+    <app-bar-pyr
+      [sourceData]="sourceDataBarPyr"
+    >
+    </app-bar-pyr>
+  </ng-container>
+  <ng-container *ngIf="!isLoadingPieRS else loadingTmp">
+    <app-pie-chart
+      [pieName]="pieNameRS"
+      [pieClass]="pieClassRS"
+      [categoryName]="categoryNameRS"
+      [sourceData]="sourceDataPieRS"
+    ></app-pie-chart>
+  </ng-container>
+  <ng-container *ngIf="!isLoadingPieGeo else loadingTmp">
+    <app-pie-chart
+      [pieName]="pieNameGeo"
+      [pieClass]="pieClassGeo"
+      [categoryName]="categoryNameGeo"
+      [sourceData]="sourceDataPieGeo"
+    ></app-pie-chart>
+  </ng-container>
+  <app-tooltip></app-tooltip>
 </ng-container>
-<ng-container *ngIf="!isLoadingPieRS else loadingTmp">
-  <app-pie-chart
-    [pieName]="pieNameRS"
-    [pieClass]="pieClassRS"
-    [categoryName]="categoryNameRS"
-    [sourceData]="sourceDataPieRS"
-  ></app-pie-chart>
-</ng-container>
-<ng-container *ngIf="!isLoadingPieGeo else loadingTmp">
-  <app-pie-chart
-    [pieName]="pieNameGeo"
-    [pieClass]="pieClassGeo"
-    [categoryName]="categoryNameGeo"
-    [sourceData]="sourceDataPieGeo"
-  ></app-pie-chart>
-</ng-container>
-<app-tooltip></app-tooltip>
 
-
-<ng-template #loadingTmp>loading... </ng-template>
+<ng-template #loadingTmp>loading...</ng-template>
+<ng-template #showLogin>
+  <p>Please login</p>
+  <input type="text" [(ngModel)]="email" style="display: block" placeholder="Email"/>
+  <input type=password [(ngModel)]="password" style="display: block" placeholder = "Password"/>
+  <button (click)="login()" style="display: block" [disabled]="!email || !password">Sign in</button>
+</ng-template>

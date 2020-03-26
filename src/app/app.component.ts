@@ -1,6 +1,7 @@
-import { Component }           from '@angular/core';
+import { Component, OnInit }   from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { map, tap }            from 'rxjs/operators';
+import { AuthService }         from './auth.service';
 
 interface PieRSDatum {
   category: string;
@@ -12,8 +13,9 @@ interface PieRSDatum {
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
-  values;
+export class AppComponent implements OnInit {
+  email: string;
+  password: string;
   isLoadingPieRS = true;
   isLoadingPieGeo = true;
   isLoadingBarPyr = true;
@@ -31,7 +33,7 @@ export class AppComponent {
   pieClassRS = 'pie-rs';
   categoryNameRS = 'revstr';
 
-  constructor(public db: AngularFireDatabase) {
+  constructor(public db: AngularFireDatabase, public authService: AuthService) {
     this.db.list('SASTableData+BARPYRAMID').valueChanges()
       .pipe(tap(() => this.isLoadingBarPyr = false))
       .subscribe(response => this.sourceDataBarPyr = response);
@@ -47,5 +49,17 @@ export class AppComponent {
     this.db.list('SASTableData+PIE_GEO').valueChanges()
       .pipe(tap(() => this.isLoadingPieGeo = false))
       .subscribe(response => this.sourceDataPieGeo = response);
+  }
+  ngOnInit(): void {
+    this.logout();
+  }
+
+  login() {
+    this.authService.login(this.email, this.password);
+    this.email = this.password = '';
+  }
+
+  logout() {
+    this.authService.logout();
   }
 }
